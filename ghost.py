@@ -1,8 +1,6 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from pygame.locals import *
-import numpy as np
-from random import choice
 
 class Ghost:
     def __init__(self, grid, initialpos, r, g, b) -> None:
