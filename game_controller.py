@@ -18,4 +18,8 @@ class GameController:
             next = (current[0] + direction[0], current[1] + direction[1])
             if self.isValidMove(next):
                 return next
-       
+    
+    def checkLoss(self, ghost, player):
+        if ghost == player:
+            return True
+        return False 
