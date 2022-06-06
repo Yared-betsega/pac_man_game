@@ -2,7 +2,7 @@ from random import choice
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from pygame.locals import *
+from pygame.locals import * 
 from game_controller import GameController
 from ghost import Ghost
 from graphics import GraphicsHandler
