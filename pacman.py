@@ -2,14 +2,14 @@ from random import choice
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from pygame.locals import * 
+from pygame.locals import *
 from game_controller import GameController
-from ghost import Ghost
-from graphics import GraphicsHandler
+from ghost import Ghost 
+from graphics import Acceptor, GraphicsHandler
 from grids import *
 from hero import Hero
 
-global grid
+global grid, difficulty
 grid = choice(grids)
 def init():
     pygame.init()
@@ -20,7 +20,10 @@ def init():
     gluOrtho2D(-5.0, 28.0, -4.0, 20.0)
     return window
 
-
+acceptor = Acceptor()
+acceptor.start()
+difficulty = acceptor.difficulty
+print(difficulty)
 init()
 
 font = pygame.font.Font('freesansbold.ttf', 25)
@@ -34,12 +37,12 @@ def main():
     whiteGhost = Ghost(grid, (len(grid)-2, len(grid[0])-2), 1.0, 1.0, 1.0)
     tillGhost = Ghost(grid, (len(grid)-2, 1), 0.0, 1.0, 1.0)
     nowRun, lost, won = 0, False, 0
-    
+    ghostFound = []
+    timeTaken = 0
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
@@ -59,31 +62,48 @@ def main():
                     hero.moveDown()
 
         if not won and not lost:
+            if nowRun % 600 == 0:
+                hero.timeTaken += 1
+
             graphicsHandler.playGround(hero)
-            if nowRun % 200 == 0:
-                blackGhostNextMove = gameController.nextGhostMove(blackGhost.currentPosition)
-                greenGhostNextMove = gameController. nextGhostMove(greenGhost.currentPosition)
-                whiteGhostNextMove = gameController.nextGhostMove(whiteGhost.currentPosition)
-                tillGhostNextMove = gameController.nextGhostMove(tillGhost.currentPosition)
+            if nowRun % difficulty == 0:
+                nextMove = gameController.nextGhostMove(blackGhost.currentPosition, (hero.x, hero.y))
+                if nextMove not in ghostFound:
+                    blackGhostNextMove = nextMove
+                    ghostFound.append(nextMove)
+                nextMove = gameController.nextGhostMove(greenGhost.currentPosition, (hero.x, hero.y))
+                if nextMove not in ghostFound:
+                    greenGhostNextMove = nextMove
+                    ghostFound.append(nextMove)
+                nextMove = gameController.nextGhostMove(whiteGhost.currentPosition, (hero.x, hero.y))
+                if nextMove not in ghostFound:
+                    whiteGhostNextMove = nextMove
+                    ghostFound.append(nextMove)
+                nextMove = gameController.nextGhostMove(tillGhost.currentPosition, (hero.x, hero.y))
+                if nextMove not in ghostFound:
+                    tillGhostNextMove = nextMove
+                    ghostFound.append(nextMove)
             blackGhost.move(blackGhostNextMove)
             greenGhost.move(greenGhostNextMove)
             whiteGhost.move(whiteGhostNextMove)
             tillGhost.move(tillGhostNextMove)
-
+            ghostFound.clear()
             graphicsHandler.drawText(9.5, 16, "Score: " + str(hero.score))
             graphicsHandler.drawText(7, 18, "Target Score: " + str(gameController.targetScore))
+            graphicsHandler.drawText(0., 18, "Time: " + str(hero.timeTaken))
+
         pygame.display.flip()
 
         won = won or gameController.checkWin(hero.score)
         if won:
-            graphicsHandler.displayWinScreen(hero.score)
+            graphicsHandler.displayWinScreen(hero.score, hero.timeTaken)
         if not won:
             lost = lost or gameController.checkLoss(blackGhost.currentPosition, (hero.x, hero.y))
             lost = lost or gameController.checkLoss(greenGhost.currentPosition, (hero.x, hero.y))
             lost = lost or gameController.checkLoss(whiteGhost.currentPosition, (hero.x, hero.y))
             lost = lost or gameController.checkLoss(tillGhost.currentPosition, (hero.x, hero.y))
         if lost:
-            graphicsHandler.displayLossScreen((hero.x, hero.y), hero.score)
+            graphicsHandler.displayLossScreen((hero.x, hero.y), hero.score, hero.timeTaken)
 
         pygame.time.wait(10)
         nowRun += 10

@@ -88,10 +88,10 @@ class Acceptor:
         self.root = tk.Tk()
         self.root.title("PacMan Game")
         self.title = tk.Label(self.root, text="Choose Difficulty",height=3, width=40, font=("Helvetica 15 bold"), bg="black", fg="white")
-        self.easy = tk.Button(self.root, text="Easy",width=10, height=2, cursor="hand2", font=10, fg="black", bg="lightgray", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("easy"))
-        self.medium = tk.Button(self.root, text="Medium",width=10, height=2, cursor="hand2", font=10, fg="black", bg="lightgray", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("medium"))
-        self.hard = tk.Button(self.root, text="Hard",width=10, height=2, cursor="hand2", font=10, fg="black", bg="lightgray", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("hard"))
-        self.hell = tk.Button(self.root, text="Hell",width=10, height=2, cursor="hand2", font=10, fg="black", bg="lightgray", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("hell"))
+        self.easy = tk.Button(self.root, text="Easy",width=10, height=2, cursor="hand2", font=12, fg="black", bg="yellow", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("easy"))
+        self.medium = tk.Button(self.root, text="Medium",width=10, height=2, cursor="hand2", font=12, fg="black", bg="lightgreen", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("medium"))
+        self.hard = tk.Button(self.root, text="Hard",width=10, height=2, cursor="hand2", font=12, fg="black", bg="mediumblue", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("hard"))
+        self.hell = tk.Button(self.root, text="Hell",width=10, height=2, cursor="hand2", font=12, fg="black", bg="darkred", borderwidth=2, padx=10, pady=5,command=lambda:self.chooseDifficulty("hell"))
         self.difficulty = None
 
     def start(self):
