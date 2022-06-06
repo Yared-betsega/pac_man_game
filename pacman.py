@@ -9,6 +9,9 @@ from graphics import GraphicsHandler
 from grids import *
 from hero import Hero
 
+
+
+
 global grid
 grid = choice(grids)
 def init():
