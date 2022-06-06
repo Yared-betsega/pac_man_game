@@ -22,4 +22,9 @@ class GameController:
     def checkLoss(self, ghost, player):
         if ghost == player:
             return True
-        return False 
+        return False
+
+    def checkWin(self, score):
+        if score == self.targetScore:
+            return True
+        return False     
