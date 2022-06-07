@@ -60,7 +60,23 @@ def main():
 
         if not won and not lost:
             graphicsHandler.playGround(hero)
-            
-            blackGhostNextMove = gameController.nextGhostMove(blackGhost.currentPosition)
-            greenGhostNextMove = gameController. nextGhostMove(greenGhost.currentPosition)
-            whiteGhostNextMove = gameController.nextGhostMove(whiteGhost.currentPosition)
+            if nowRun % 200 == 0:
+                blackGhostNextMove = gameController.nextGhostMove(blackGhost.currentPosition)
+                greenGhostNextMove = gameController. nextGhostMove(greenGhost.currentPosition)
+              
+            greenGhost.move(greenGhostNextMove)
+            whiteGhost.move(whiteGhostNextMove)
+            tillGhost.move(tillGhostNextMove)
+
+            graphicsHandler.drawText(9.5, 16, "Score: " + str(hero.score))
+            graphicsHandler.drawText(7, 18, "Target Score: " + str(gameController.targetScore))
+        pygame.display.flip()
+
+        won = won or gameController.checkWin(hero.score)
+        if won:
+            graphicsHandler.displayWinScreen(hero.score)
+        pygame.time.wait(10)
+        nowRun += 10
+        
+
+main()
