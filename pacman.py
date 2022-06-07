@@ -60,7 +60,7 @@ def main():
 
         if not won and not lost:
             graphicsHandler.playGround(hero)
-            if nowRun % 200 == 0:
-                blackGhostNextMove = gameController.nextGhostMove(blackGhost.currentPosition)
-                greenGhostNextMove = gameController. nextGhostMove(greenGhost.currentPosition)
-                whiteGhostNextMove = gameController.nextGhostMove(whiteGhost.currentPosition)
+            
+            blackGhostNextMove = gameController.nextGhostMove(blackGhost.currentPosition)
+            greenGhostNextMove = gameController. nextGhostMove(greenGhost.currentPosition)
+            whiteGhostNextMove = gameController.nextGhostMove(whiteGhost.currentPosition)
