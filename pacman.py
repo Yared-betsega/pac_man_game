@@ -63,7 +63,9 @@ def main():
             if nowRun % 200 == 0:
                 blackGhostNextMove = gameController.nextGhostMove(blackGhost.currentPosition)
                 greenGhostNextMove = gameController. nextGhostMove(greenGhost.currentPosition)
-              
+                whiteGhostNextMove = gameController.nextGhostMove(whiteGhost.currentPosition)
+                tillGhostNextMove = gameController.nextGhostMove(tillGhost.currentPosition)
+            blackGhost.move(blackGhostNextMove)
             greenGhost.move(greenGhostNextMove)
             whiteGhost.move(whiteGhostNextMove)
             tillGhost.move(tillGhostNextMove)
@@ -75,6 +77,14 @@ def main():
         won = won or gameController.checkWin(hero.score)
         if won:
             graphicsHandler.displayWinScreen(hero.score)
+        if not won:
+            lost = lost or gameController.checkLoss(blackGhost.currentPosition, (hero.x, hero.y))
+            lost = lost or gameController.checkLoss(greenGhost.currentPosition, (hero.x, hero.y))
+            lost = lost or gameController.checkLoss(whiteGhost.currentPosition, (hero.x, hero.y))
+            lost = lost or gameController.checkLoss(tillGhost.currentPosition, (hero.x, hero.y))
+        if lost:
+            graphicsHandler.displayLossScreen((hero.x, hero.y), hero.score)
+
         pygame.time.wait(10)
         nowRun += 10
         
