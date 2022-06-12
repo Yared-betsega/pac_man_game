@@ -5,6 +5,7 @@ Python
 # What platform do we use
 1. OpenGL library with python
 2. Pygame python library
+3. Python tkinter for accepting user input
 
 # What algorithms included
 1. We use the Breadth First Search graph traversal algorithm in order to find the shortest path
