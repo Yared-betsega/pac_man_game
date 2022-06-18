@@ -25,7 +25,18 @@ class GraphicsHandler:
                 glVertex(i, j)
         glEnd()
 
-        
+        # Draw the yellow Dots (Foods)
+        glColor3f(1.0, 1.0, 0.0)
+        glPointSize(5)
+        glBegin(GL_POINTS)
+        for i in range(1, len(self.grid)-1):
+            for j in range(1, len(self.grid[0])-1):
+                if self.grid[i][j] == 0 and (i, j) not in hero.visited:
+                    glVertex(i, j)
+        glEnd()
+
+        # Draw the hero and remove the eaten fruit
+        self.drawHero(hero)
 
     def drawHero(self, hero):
         glColor3f(1.0, 1.0, 0.0)
