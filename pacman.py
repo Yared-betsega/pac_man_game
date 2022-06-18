@@ -1,4 +1,5 @@
 from random import choice
+from time import sleep
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -23,12 +24,12 @@ def init():
 acceptor = Acceptor()
 acceptor.start()
 difficulty = acceptor.difficulty
-print(difficulty)
 init()
 
 font = pygame.font.Font('freesansbold.ttf', 25)
 
 def main():
+    global difficulty
     graphicsHandler = GraphicsHandler(font, grid)
     gameController = GameController(grid)
     hero = Hero()
@@ -38,30 +39,34 @@ def main():
     tillGhost = Ghost(grid, (len(grid)-2, 1), 0.0, 1.0, 1.0)
     nowRun, lost, won = 0, False, 0
     ghostFound = []
-    timeTaken = 0
+    paused = False
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-
+            
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
-                if hero.x > 1 and grid[hero.x-1][hero.y] != 1:
-                    hero.moveLeft()
+            if keys[pygame.K_SPACE]:
+                print("hi")
+                paused = False if paused else True
+                break
+            if not paused:
+                if keys[pygame.K_LEFT]:
+                    if hero.x > 1 and grid[hero.x-1][hero.y] != 1:
+                        hero.moveLeft()
+                        
+                if keys[pygame.K_RIGHT]:
+                    if hero.x < 29 and grid[hero.x+1][hero.y] != 1:
+                        hero.moveRight()
                     
-            if keys[pygame.K_RIGHT]:
-                if hero.x < 29 and grid[hero.x+1][hero.y] != 1:
-                    hero.moveRight()
-                    
-            if keys[pygame.K_UP]:
-                if hero.y < 16 and grid[hero.x][hero.y+1] != 1:
-                    hero.moveUp()
-                    
-            if keys[pygame.K_DOWN]:
-                if hero.y > 1 and grid[hero.x][hero.y-1] != 1:
-                    hero.moveDown()
-
-        if not won and not lost:
+                if keys[pygame.K_UP]:
+                    if hero.y < 16 and grid[hero.x][hero.y+1] != 1:
+                        hero.moveUp()
+                if keys[pygame.K_DOWN]:
+                    if hero.y > 1 and grid[hero.x][hero.y-1] != 1:
+                        hero.moveDown()
+                
+        if not won and not lost and not paused:
             if nowRun % 600 == 0:
                 hero.timeTaken += 1
 
