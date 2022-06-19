@@ -38,50 +38,44 @@ class GraphicsHandler:
         # Draw the hero and remove the eaten fruit
         self.drawHero(hero)
 
+        self.drawText(-0, -3, "Press Space to pause", (255, 255, 255, 255))
+        self.drawText(13, -3, "Press Enter to restart", (255, 255, 255, 255))
+
     def drawHero(self, hero):
         glColor3f(1.0, 1.0, 0.0)
         glPointSize(15)
-        # glEnable(GL_POINT_SMOOTH);
         glBegin(GL_POINTS)
         glVertex(hero.x,hero.y)
         glEnd()
-        # glDisable(GL_POINT_SMOOTH);
-
      
-    def drawText(self, x, y, text):                                                
-        textSurface = self.font.render(text, True, (255, 255, 66, 255), (0, 0, 0, 0))
+    def drawText(self, x, y, text, color = (255, 255, 66, 255)):                                                
+        textSurface = self.font.render(text, True, color, (0, 0, 0, 0))
         textData = pygame.image.tostring(textSurface, "RGBA", True)
         glRasterPos2d(x, y)
         glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
 
     def displayWinScreen(self, score, timeTaken):
-        sleep(1)
         glClear(GL_COLOR_BUFFER_BIT)
         self.drawText(9.5, 9, "You Won!!")
         self.drawText(8, 7, "Your Score: " + str(score))
         minutes = timeTaken // 60
         seconds = timeTaken % 60
         self.drawText(8.5, 5, "Your time: 0" + str(minutes) + " : " + str(seconds))
+        self.drawText(7, 2, "Press Enter to restart", (255, 255, 255, 255))
+        
         pygame.display.flip()
     
     def displayLossScreen(self, player, score, timeTaken):
-        glColor(1.0, 0.0, 0.0)
-        glPointSize(8)
-        glBegin(GL_POINTS)
-        glVertex2f(player[0]+0.5, player[1]+0.5)
-        glVertex2f(player[0]+0.5, player[1]-0.5)
-        glVertex2f(player[0]-0.5, player[1]+0.5)
-        glVertex2f(player[0]-0.5, player[1]-0.5)
-        glEnd()
         
         pygame.display.flip()
-        sleep(1)
         glClear(GL_COLOR_BUFFER_BIT)
         self.drawText(9.5, 9, "You Lost!!")
         self.drawText(8, 7, "Your Score: " + str(score))
         minutes = timeTaken // 60
         seconds = timeTaken % 60
         self.drawText(8.5, 5, "Your time: 0" + str(minutes) + " : " + str(seconds))
+        self.drawText(7, 2, "Press Enter to restart", (255, 255, 255, 255))
+        
         pygame.display.flip()
 
 # Accept The Functions
